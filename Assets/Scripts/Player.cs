@@ -28,8 +28,11 @@ public class Player : MonoBehaviour {
     [SerializeField]
     float extraJumps;
     [SerializeField]
+    float extraDash;
+    [SerializeField]
     float runSpeed;
     public float jumpsMade;
+    public float dashesMade;
     Vector3 velocity;
     float velocityXSmoothing;
 
@@ -39,6 +42,7 @@ public class Player : MonoBehaviour {
     Vector2 directionalInput;
     bool wallSliding;
     int wallDirX;
+
 
     void Start()
     {
@@ -73,6 +77,7 @@ public class Player : MonoBehaviour {
             if (controller.collisions.left || controller.collisions.right)
             {
                 jumpsMade = 0;
+                dashesMade = 0;
             }
         }
         else
@@ -103,6 +108,7 @@ public class Player : MonoBehaviour {
         if (wallSliding)
         {
             jumpsMade = 0;
+            dashesMade = 0;
             if (wallDirX == directionalInput.x)
             {
                 velocity.x = -wallDirX * wallJumpClimb.x;
@@ -122,6 +128,7 @@ public class Player : MonoBehaviour {
         if (controller.collisions.below)
         {
             jumpsMade = 0;
+            dashesMade = 0;
             if (controller.collisions.slidingDownMaxSlope)
             {
                 if (directionalInput.x != -Mathf.Sign(controller.collisions.slopeNormal.x))

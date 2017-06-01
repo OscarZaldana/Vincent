@@ -26,9 +26,10 @@ public class Player : MonoBehaviour {
     float maxJumpVelocity;
     float minJumpVelocity;
     [SerializeField]
-    float extraJumps;
+    float dashVelocity = 5;
     [SerializeField]
-    float extraDash;
+    float extraJumps;
+    public float extraDash = 1;
     [SerializeField]
     float runSpeed;
     public float jumpsMade;
@@ -57,28 +58,29 @@ public class Player : MonoBehaviour {
     {
         if (!gs.pivotAttached)
         {
-            CalculateVelocity();
-            HandleWallSliding();
+                CalculateVelocity();
+                HandleWallSliding();
 
-            WalkOrRun();
+                WalkOrRun();
 
-            if (controller.collisions.above || controller.collisions.below)
-            {
-                if (controller.collisions.slidingDownMaxSlope)
+                if (controller.collisions.above || controller.collisions.below)
                 {
-                    velocity.y += controller.collisions.slopeNormal.y * -gravity * Time.deltaTime;
+                    dashesMade = 0;
+                    if (controller.collisions.slidingDownMaxSlope)
+                    {
+                        velocity.y += controller.collisions.slopeNormal.y * -gravity * Time.deltaTime;
+                    }
+                    else
+                    {
+                        velocity.y = 0;
+                    }
                 }
-                else
-                {
-                    velocity.y = 0;
-                }
-            }
 
-            if (controller.collisions.left || controller.collisions.right)
-            {
-                jumpsMade = 0;
-                dashesMade = 0;
-            }
+                if (controller.collisions.left || controller.collisions.right)
+                {
+                    jumpsMade = 0;
+                    dashesMade = 0;
+                }
         }
         else
         {
@@ -93,7 +95,14 @@ public class Player : MonoBehaviour {
 
     public void WalkOrRun()
     {
-        if(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        float running = Input.GetAxisRaw("Triggers");
+
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        {
+            controller.Move(velocity * Time.deltaTime * runSpeed, directionalInput);
+        }
+
+        else if (running < 0 || running > 0)
         {
             controller.Move(velocity * Time.deltaTime * runSpeed, directionalInput);
         }
@@ -108,7 +117,6 @@ public class Player : MonoBehaviour {
         if (wallSliding)
         {
             jumpsMade = 0;
-            dashesMade = 0;
             if (wallDirX == directionalInput.x)
             {
                 velocity.x = -wallDirX * wallJumpClimb.x;
@@ -128,7 +136,6 @@ public class Player : MonoBehaviour {
         if (controller.collisions.below)
         {
             jumpsMade = 0;
-            dashesMade = 0;
             if (controller.collisions.slidingDownMaxSlope)
             {
                 if (directionalInput.x != -Mathf.Sign(controller.collisions.slopeNormal.x))
@@ -192,6 +199,19 @@ public class Player : MonoBehaviour {
                 }
 
             }
+    }
+
+    public void Dashing()
+    {
+        if (!wallSliding)
+        {
+            if (dashesMade <= extraDash)
+            {
+                dashesMade++;
+                velocity.y = 0;
+                velocity.x *= dashVelocity;
+            }
+        } 
     }
 
     void CalculateVelocity()

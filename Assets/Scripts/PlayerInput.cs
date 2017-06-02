@@ -47,7 +47,7 @@ public class PlayerInput : MonoBehaviour
             {
                 player.OnJumpInputUp();
             }
-            if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Joystick1Button4) || Input.GetKeyDown(KeyCode.Joystick1Button5))
+            if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Joystick1Button1))
             {
                 player.Dashing();
             }

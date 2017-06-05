@@ -19,6 +19,8 @@ public class GrappleInputManager : MonoBehaviour
 
     public float controllerAngle;
 
+    GameObject target;
+
     void Start()
     {
         grapple = GetComponent<GrappleScript>();
@@ -27,7 +29,7 @@ public class GrappleInputManager : MonoBehaviour
 
     void Update()
     {
-        UpdateInput();
+        //UpdateInput();
         UpdateInputController();
     }
 
@@ -158,7 +160,9 @@ public class GrappleInputManager : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// </summary>
 
     private void UpdateInputController()
     {

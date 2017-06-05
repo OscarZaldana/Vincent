@@ -65,8 +65,7 @@ public class Player : MonoBehaviour {
 
                 if (controller.collisions.above || controller.collisions.below)
                 {
-                    dashesMade = 0;
-                    jumpsMade = 0;
+
                     if (controller.collisions.slidingDownMaxSlope)
                     {
                         velocity.y += controller.collisions.slopeNormal.y * -gravity * Time.deltaTime;
@@ -77,6 +76,11 @@ public class Player : MonoBehaviour {
                     }
                 }
 
+                if (controller.collisions.below)
+                {
+                  dashesMade = 0;
+                   jumpsMade = 0;
+                }
                 if (controller.collisions.left || controller.collisions.right)
                 {
                     jumpsMade = 0;

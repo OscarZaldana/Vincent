@@ -29,8 +29,8 @@ public class GrappleInputManager : MonoBehaviour
 
     void Update()
     {
-        //UpdateInput();
-        UpdateInputController();
+        UpdateInput();
+        //UpdateInputController();
     }
 
     private void UpdateInput()

@@ -41,10 +41,12 @@ public class PlayerInput : MonoBehaviour
 
             if (Input.GetKeyDown(jump))
             {
+                player.jumping = true;
                 player.OnJumpInputDown();
             }
             if (Input.GetKeyUp(jump))
             {
+                player.jumping = false;
                 player.OnJumpInputUp();
             }
             if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Joystick1Button1))

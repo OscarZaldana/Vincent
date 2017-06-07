@@ -34,19 +34,23 @@ public class Player : MonoBehaviour {
     float runSpeed;
     public float jumpsMade;
     public float dashesMade;
-    Vector3 velocity;
+    public Vector3 velocity;
     float velocityXSmoothing;
 
     Controller2D controller;
     GrappleScript gs;
 
-    Vector2 directionalInput;
-    bool wallSliding;
+    public Vector2 directionalInput;
+    public bool wallSliding;
     int wallDirX;
+    public bool dashing = false;
+    public bool jumping = false;
 
+    Animator anim;
 
     void Start()
     {
+        anim = GetComponent<Animator>();
         controller = GetComponent<Controller2D>();
         gs = GetComponent<GrappleScript>();
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
@@ -56,6 +60,11 @@ public class Player : MonoBehaviour {
 
     void Update()
     {
+        if (dashing)
+        {
+            StartCoroutine("TurnDashFalse");
+        }
+
         if (!gs.pivotAttached)
         {
                 CalculateVelocity();
@@ -151,7 +160,7 @@ public class Player : MonoBehaviour {
                 }
             }
             else
-            {     
+            {
                     velocity.y = maxJumpVelocity;
             }
         }
@@ -215,6 +224,7 @@ public class Player : MonoBehaviour {
                 dashesMade++;
                 velocity.y = 0;
                 velocity.x *= dashVelocity;
+                dashing = true;
             }
         } 
     }
@@ -224,5 +234,12 @@ public class Player : MonoBehaviour {
             float targetVelocityX = directionalInput.x * moveSpeed;
             velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
             velocity.y += gravity * Time.deltaTime;
+    }
+
+    IEnumerator TurnDashFalse()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        dashing = false;
     }
 }

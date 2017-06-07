@@ -28,17 +28,67 @@ public class Animation : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-		
-	}
+        XDirection();
+        AnimateMoveMent();
+    }
 
     void AnimateMoveMent()
     {
-        if(!pc.collisions.left && !pc.collisions.right && !pc.collisions.below && !gs.pivotAttached && !player.wallSliding)
+        if (player.velocity.x < 0 || player.velocity.x > 0)
+            anim.Play("WalkingPlayer");
+
+        /*if (!pc.collisions.left && !pc.collisions.right && !pc.collisions.below && !gs.pivotAttached && !player.wallSliding && player.dashing == false)
         {
-            if (player.velocity.y > 0)
+            if (player.jumping == true)
             {
                 anim.Play("JumpingPlayer");
             }
+        }
+        else if (!pc.collisions.left && !pc.collisions.right && !pc.collisions.below && !gs.pivotAttached && !player.wallSliding && player.dashing == false)
+        {
+            if (player.jumping == false)
+            {
+                anim.Play("Falling");
+            }
+        }
+
+        else if (!pc.collisions.left && !pc.collisions.right && pc.collisions.below && !gs.pivotAttached && !player.wallSliding && player.dashing == false)
+        {
+            if (player.velocity.x < 0 || player.velocity.x > 0)
+                anim.Play("WalkingPlayer");
+        }
+        else if (player.velocity.x < 0 || player.velocity.x > 0)
+        {
+            anim.Play("RunningPlayer");
+        }
+        else if (player.dashing == true)
+        {
+            anim.Play("DashingPlayer");
+        }
+        else if (!pc.collisions.left && !pc.collisions.right && !pc.collisions.below && gs.pivotAttached && !player.wallSliding && player.dashing == false)
+        {
+            anim.Play("Swinging");
+        }
+        else if (!pc.collisions.left && !pc.collisions.right && !pc.collisions.below && !gs.pivotAttached && player.wallSliding && player.dashing == true)
+        {
+            anim.Play("SlidingPlayer");
+        }
+        */
+        else
+            anim.Play("PlayerIdle");
+
+
+    }
+
+    void XDirection()
+    {
+        if(player.directionalInput.x < 0)
+        {
+            rend.flipX = true;
+        }
+        else if(player.directionalInput.x > 0)
+        {
+            rend.flipX = false;
         }
     }
 

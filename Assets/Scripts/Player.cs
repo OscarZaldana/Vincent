@@ -40,13 +40,17 @@ public class Player : MonoBehaviour {
     Controller2D controller;
     GrappleScript gs;
 
-    Vector2 directionalInput;
+    public Vector2 directionalInput;
     public bool wallSliding;
     int wallDirX;
-    bool dashing = false;
+    public bool dashing = false;
+    public bool jumping = false;
+
+    Animator anim;
 
     void Start()
     {
+        anim = GetComponent<Animator>();
         controller = GetComponent<Controller2D>();
         gs = GetComponent<GrappleScript>();
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
@@ -156,7 +160,7 @@ public class Player : MonoBehaviour {
                 }
             }
             else
-            {     
+            {
                     velocity.y = maxJumpVelocity;
             }
         }
